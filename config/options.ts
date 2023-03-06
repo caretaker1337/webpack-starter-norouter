@@ -31,6 +31,7 @@ const options: Configuration = {
     ],
   },
   output: {
+    asyncChunks: true,
     clean: true,
     chunkFilename: "js/[name].[contenthash].js",
     filename: "js/bundle.js",
@@ -42,14 +43,19 @@ const options: Configuration = {
     splitChunks: {
       chunks: "async",
       cacheGroups: {
-        defaultVendors: false,
+        commons: {
+          chunks: "async",
+          name: "vendors",
+          reuseExistingChunk: true,
+          test: /[\\/]node_modules[\\/]/,
+        },
         default: {
-          minChunks: 1,
+          chunks: "async",
+          filename: "js/chunk.[chunkhash].js",
           reuseExistingChunk: true,
         },
       },
     },
-    usedExports: "global",
   },
   performance: {
     hints: false,
